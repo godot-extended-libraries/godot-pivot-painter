@@ -7,7 +7,7 @@ Modified from https://github.com/Gvgeo/Pivot-Painter-for-Blender/issues/4
 
 For the creation of the textures, the user has to create each part that needs to move as a separate object with the correct origin, rotation, and parent relations, need to apply scale and location. (Afterwards, parts can be merged as needed.)
 
-Addon will create textures with enough pixels to store each object information separate (1 pixel per object). 
+The addon will create textures with enough pixels to store each object information separate (1 pixel per object). 
 
 To be able to read the info, the addon also creates a UV map that points all the object's vertices to the same object's pixel.
 
@@ -17,78 +17,86 @@ In Godot Engine will need to rotate the vertices from the object's origin while 
 
 ----
 
-Texture name -> Name in code -> Function name
+**Texture name** -> Name in code -> Function name
 
 #### RGB CHANNELS
 
-Pivot Point HDR -> PivotPoint -> pivotarray
+**Pivot Point HDR** -> PivotPoint -> pivotarray
 Position of the origin of each object.
 The location from which vertices will rotate.
 
-Origin Position HDR -> OriginPosition -> originArray
+**Origin Position HDR** -> OriginPosition -> originArray
 Position of the center of the bounding box.
 
-Origin Extents HDR -> OriginExtents -> ExtentsArray
+**Origin Extents HDR** -> OriginExtents -> ExtentsArray
 Dimensions in local coordinates.
 
-X Axis -> Xaxis -> xaxisArray
-Y Axis -> Yaxis
-Z Axis -> Zaxis
+**X Axis** -> Xaxis -> xaxisArray
+**Y Axis** -> Yaxis
+**Z Axis** -> Zaxis
 The direction of the local x axis.
 Mostly used with X extend, to control the rotation amount. (vertex distance from origin vs object's size)
 
 #### ALPHA CHANNEL
 
-HDR - Parent Index -> Index -> indexarray
+**HDR - Parent Index** -> Index -> indexarray
 Has bit manipulation, storing int into float. Function: packTextureBits.
 Index of the parent.
 To access properties from the parent's pixel in the texture. It is used to inherit parent properties(rotation, position, etc.) at runtime.
 
-HDR - Number of Steps From Root -> Steps -> level
+**HDR - Number of Steps From Root** -> Steps -> level
 Number of parents for every object till you reach the root.
 
-HDR - Random 0-1 Value Per Element -> Randomhdr -> randomfloat
+**HDR - Random 0-1 Value Per Element** -> Randomhdr -> randomfloat
 Random float. Same as SDR.
 
-HDR - Bounding Box Diameter -> Diameter -> diagonal
+**HDR - Bounding Box Diameter** -> Diameter -> diagonal
 Diagonal length of the bound box.
 
-HDR - Selection Order -> SelectionOrder -> customorder
+**HDR - Selection Order** -> SelectionOrder -> customorder
 Has bit manipulation, storing int into float. Function: packTextureBits.
 The order the objects were selected in Blender while using the selection order function of the addon.
 The selection order is used in Fortnite's style build system.
 
-HDR - Normalized 0-1 Hierarchy Position -> Hierarchyhdr -> two parts in "level" and "setpixels"
+**HDR - Normalized 0-1 Hierarchy Position** -> Hierarchyhdr -> two parts in "level" and "setpixels"
 Hierarchy, the current level of the object / highest possible level. Same with SDR.
 level as in  "HDR - Number of Steps From Root."
 
-HDR - Object X Width -> Xwidth -> xextent (Xextent contains optional calculations from boundbox, read yextent if need)
-HDR - Object Y Depth -> Ydepth -> yextent
-HDR - Object Z Height -> Zheight -> zextent
+**HDR - Object X Width** -> Xwidth -> xextent (Xextent contains optional calculations from boundbox, read yextent if need)
+**HDR - Object Y Depth** -> Ydepth -> yextent
+**HDR - Object Z Height** -> Zheight -> zextent
 The length of the object on the local x axis.
 value = value / 8
 
-Normalized 0-1 Hierarchy Position -> Hierarchy -> two parts in "level" and "setpixels"
+**Normalized 0-1 Hierarchy Position** -> Hierarchy -> two parts in "level" and "setpixels"
 Hierarchy, the current level of the object / highest possible level. Same with HDR.
 
-Random 0-1 Value Per Element -> Random -> randomfloat
+**Random 0-1 Value Per Element** -> Random -> randomfloat
 Random float. Same as HDR.
 
-X extent -> Xextent ->  
-Y extent -> Yextent -> yextent
-Z extent -> Zextent -> 
+**X extent** -> Xextent ->  
+**Y extent** -> Yextent -> yextent
+**Z extent** -> Zextent -> 
+
 The length of the object on the local x axis. (Value 0-1)
+
 value = value / 8
+
 Same as HDR with:
     clip (value, 1, 256)
     value = value / 256
 
-HDR - Scaled Bounding Box Diameter -> Diameterscaledhdr-> Diagonal length of the bound box
+**HDR - Scaled Bounding Box Diameter** -> Diameterscaledhdr-> Diagonal 
+
+length of the bound box
+
 The diagonal length of the bounding box scaled.
 Same with "HDR - Bounding Box Diameter" with obj.matrix_world.to_scale() first.
 
-Scaled Bounding Box Diameter -> Diameterscaled -> diagonalscaled
+**Scaled Bounding Box Diameter** -> Diameterscaled -> diagonalscaled
+
 The diagonal length of the bound box scaled.
+
 Same as HDR with:
     clip (value, 1, 256)
     value = value / 256
