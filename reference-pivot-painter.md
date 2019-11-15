@@ -15,63 +15,82 @@ Information in textures is stored from left to right and top to bottom, based on
 
 In Godot Engine will need to rotate the vertices from the object's origin while accounting parent's current offsets.
 
-----
-
-**Texture name** -> Name in code -> Function name
+### Texture name -> Name in code -> Function name
 
 #### RGB CHANNELS
 
 **Pivot Point HDR** -> PivotPoint -> pivotarray
+
 Position of the origin of each object.
+
 The location from which vertices will rotate.
 
 **Origin Position HDR** -> OriginPosition -> originArray
+
 Position of the center of the bounding box.
 
 **Origin Extents HDR** -> OriginExtents -> ExtentsArray
+
 Dimensions in local coordinates.
 
 **X Axis** -> Xaxis -> xaxisArray
 **Y Axis** -> Yaxis
 **Z Axis** -> Zaxis
+
 The direction of the local x axis.
+
 Mostly used with X extend, to control the rotation amount. (vertex distance from origin vs object's size)
 
 #### ALPHA CHANNEL
 
 **HDR - Parent Index** -> Index -> indexarray
+
 Has bit manipulation, storing int into float. Function: packTextureBits.
+
 Index of the parent.
+
 To access properties from the parent's pixel in the texture. It is used to inherit parent properties(rotation, position, etc.) at runtime.
 
 **HDR - Number of Steps From Root** -> Steps -> level
-Number of parents for every object till you reach the root.
+
+Number of parents for every object until you reach the root.
 
 **HDR - Random 0-1 Value Per Element** -> Randomhdr -> randomfloat
+
 Random float. Same as SDR.
 
 **HDR - Bounding Box Diameter** -> Diameter -> diagonal
-Diagonal length of the bound box.
+
+Diagonal length of the bounding box.
 
 **HDR - Selection Order** -> SelectionOrder -> customorder
+
 Has bit manipulation, storing int into float. Function: packTextureBits.
+
 The order the objects were selected in Blender while using the selection order function of the addon.
+
 The selection order is used in Fortnite's style build system.
 
 **HDR - Normalized 0-1 Hierarchy Position** -> Hierarchyhdr -> two parts in "level" and "setpixels"
+
 Hierarchy, the current level of the object / highest possible level. Same with SDR.
+
 level as in  "HDR - Number of Steps From Root."
 
 **HDR - Object X Width** -> Xwidth -> xextent (Xextent contains optional calculations from boundbox, read yextent if need)
 **HDR - Object Y Depth** -> Ydepth -> yextent
 **HDR - Object Z Height** -> Zheight -> zextent
+
 The length of the object on the local x axis.
+
 value = value / 8
 
 **Normalized 0-1 Hierarchy Position** -> Hierarchy -> two parts in "level" and "setpixels"
+
 Hierarchy, the current level of the object / highest possible level. Same with HDR.
 
 **Random 0-1 Value Per Element** -> Random -> randomfloat
+
 Random float. Same as HDR.
 
 **X extent** -> Xextent ->  
@@ -98,10 +117,11 @@ Same with "HDR - Bounding Box Diameter" with obj.matrix_world.to_scale() first.
 The diagonal length of the bound box scaled.
 
 Same as HDR with:
+
     clip (value, 1, 256)
     value = value / 256
 
-#### Bit manipulation, for Index and SelectionOrder
+### Bit manipulation, for Index and SelectionOrder
 
 Store an integer into a floating-point number. 
 
