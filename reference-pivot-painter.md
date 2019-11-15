@@ -1,20 +1,19 @@
-# Pivot Painting
-
-The aim of the addon is to store object properties in the textures.
+## Pivot Painter in Godot
+The addon aims to store object properties in the textures.
 
 Modified from https://github.com/Gvgeo/Pivot-Painter-for-Blender/issues/4
 
 ## The case of a plant/tree
 
-For the creation of the textures, user has to create each part that need to move as a separate object with correct origin, rotation, and parent relations, need to apply scale and location. (Afterwards parts can be merged as needed.)
+For the creation of the textures, the user has to create each part that needs to move as a separate object with the correct origin, rotation, and parent relations, need to apply scale and location. (Afterwards, parts can be merged as needed.)
 
 Addon will create textures with enough pixels to store each object information separate (1 pixel per object). 
 
-To be able to read the info, also creates a uv map which points all the object's vertices to the same object's pixel.
+To be able to read the info, the addon also creates a UV map that points all the object's vertices to the same object's pixel.
 
 Information in textures is stored from left to right and top to bottom, based on objects indices.
 
-In godot will need to rotate the vertices from the object's origin while accounting parent's current offsets.
+In Godot Engine will need to rotate the vertices from the object's origin while accounting parent's current offsets.
 
 ----
 
@@ -43,10 +42,10 @@ Mostly used with X extend, to control the rotation amount. (vertex distance from
 HDR - Parent Index -> Index -> indexarray
 Has bit manipulation, storing int into float. Function: packTextureBits.
 Index of the parent.
-To access properties from parent's pixel in the texture. Used to inherit parent properties(rotation, position etc.) at runtime.
+To access properties from the parent's pixel in the texture. It is used to inherit parent properties(rotation, position, etc.) at runtime.
 
 HDR - Number of Steps From Root -> Steps -> level
-Number of parents for every object till you reach root.
+Number of parents for every object till you reach the root.
 
 HDR - Random 0-1 Value Per Element -> Randomhdr -> randomfloat
 Random float. Same as SDR.
@@ -56,12 +55,12 @@ Diagonal length of the bound box.
 
 HDR - Selection Order -> SelectionOrder -> customorder
 Has bit manipulation, storing int into float. Function: packTextureBits.
-The order the objects were selected in blender while using selection order function of the addon.
-Used in fortnite's style build system.
+The order the objects were selected in Blender while using the selection order function of the addon.
+The selection order is used in Fortnite's style build system.
 
 HDR - Normalized 0-1 Hierarchy Position -> Hierarchyhdr -> two parts in "level" and "setpixels"
-Hierarchy, current level of the object / highest possible level. Same with SDR.
-level as in  "HDR - Number of Steps From Root".
+Hierarchy, the current level of the object / highest possible level. Same with SDR.
+level as in  "HDR - Number of Steps From Root."
 
 HDR - Object X Width -> Xwidth -> xextent (Xextent contains optional calculations from boundbox, read yextent if need)
 HDR - Object Y Depth -> Ydepth -> yextent
@@ -70,7 +69,7 @@ The length of the object on the local x axis.
 value = value / 8
 
 Normalized 0-1 Hierarchy Position -> Hierarchy -> two parts in "level" and "setpixels"
-Hierarchy, current level of the object / highest possible level. Same with HDR.
+Hierarchy, the current level of the object / highest possible level. Same with HDR.
 
 Random 0-1 Value Per Element -> Random -> randomfloat
 Random float. Same as HDR.
@@ -85,34 +84,36 @@ Same as HDR with:
     value = value / 256
 
 HDR - Scaled Bounding Box Diameter -> Diameterscaledhdr-> Diagonal length of the bound box
-Diagonal length of the bound box scaled.
+The diagonal length of the bounding box scaled.
 Same with "HDR - Bounding Box Diameter" with obj.matrix_world.to_scale() first.
 
 Scaled Bounding Box Diameter -> Diameterscaled -> diagonalscaled
-Diagonal length of the bound box scaled.
+The diagonal length of the bound box scaled.
 Same as HDR with:
     clip (value, 1, 256)
     value = value / 256
 
 #### Bit manipulation, for Index and SelectionOrder
 
-Storing int into float. Function: packTextureBits
+Store an integer into a floating-point number. 
 
-	index = index +1024
-	sigh=index&0x8000
-	sigh=sigh<<16
-	exptest=index&0x7fff
-	if exptest==0:
-		exp=0
-	else:
-		exp=index>>10
-		exp=exp&0x1f
-		exp=exp-15
-		exp=exp+127
-		exp=exp<<23
-	mant=index&0x3ff
-	mant=mant<<13
-	index=sigh|exp|mant
+Function: packTextureBits
+
+    index = index +1024
+    sigh=index&0x8000
+    sigh=sigh<<16
+    exptest=index&0x7fff
+    if exptest==0:
+        exp=0
+    else:
+        exp=index>>10
+        exp=exp&0x1f
+        exp=exp-15
+        exp=exp+127
+        exp=exp<<23
+    mant=index&0x3ff
+    mant=mant<<13
+    index=sigh|exp|mant
   
 ------------------------
 
