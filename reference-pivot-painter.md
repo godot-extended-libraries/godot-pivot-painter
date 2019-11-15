@@ -1,4 +1,4 @@
-## Pivot Painter in Godot
+# Pivot Painter in Godot
 The addon aims to store object properties in the textures.
 
 Modified from https://github.com/Gvgeo/Pivot-Painter-for-Blender/issues/4
@@ -21,7 +21,7 @@ The coordinates are taken from the world center, instead of the origin of active
 
 Some minor options have made to fit the original implementation, e.g. In "SelectionOrder" texture, order starts from 1 instead of 0.
 
-#### RGB CHANNELS
+## RGB CHANNELS
 | Texture name | Name in code | Function name |
 | --- | --- | --- |
 |**Pivot Point HDR** | PivotPoint | pivotarray |
@@ -82,7 +82,7 @@ Same with "HDR - Bounding Box Diameter" with obj.matrix_world.to_scale() first. 
 | The diagonal length of the bound box scaled. |||
 | Same as HDR with: `clip (value, 1, 256)` and `value = value / 256`|||
 
-### Bit manipulation, for Index and SelectionOrder
+## Bit manipulation, for Index and SelectionOrder
 
 Store an integer into a floating-point number. 
 
