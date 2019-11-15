@@ -15,6 +15,11 @@ Information in textures is stored from left to right and top to bottom, based on
 
 In Godot Engine will need to rotate the vertices from the object's origin while accounting parent's current offsets.
 
+## Special Notes
+
+The coordinates are taken from the world center, instead of the origin of active object or 3d cursor.
+
+Some minor options have made to fit the original implementation, e.g. In "SelectionOrder" texture, order starts from 1 instead of 0.
 
 #### RGB CHANNELS
 | Texture name | Name in code | Function name |
